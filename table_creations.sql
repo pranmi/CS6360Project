@@ -290,58 +290,184 @@ QUERY 4
 Find the name of the publishers and the title of the most popular book for each 
 publisher. 
 */
-
+SELECT p.publisher_name, b.title
+FROM publisher p
+JOIN book b ON p.publisher_id = b.publisher_id
+JOIN (
+    SELECT br.book_id
+    FROM borrowing_record br
+    GROUP BY br.book_id
+    HAVING COUNT(*) = (
+        SELECT MAX(cnt)
+        FROM (
+            SELECT COUNT(*) cnt
+            FROM borrowing_record
+            GROUP BY book_id
+        )
+    )
+) pop ON b.book_id = pop.book_id;
 /*
 QUERY 5
 Find names of books that were not borrowed in the last 5 months. 
 */
-
+SELECT b.title
+FROM book b
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM borrowing_record br
+    WHERE br.book_id = b.book_id
+      AND br.issue_date >= ADD_MONTHS(SYSDATE, -5)
+);
 /*
 QUERY 6
 Find the members who have borrowed all the books wrote by the most popular 
 author. 
 */
-
+SELECT m.person_id
+FROM member m
+WHERE NOT EXISTS (
+    SELECT c.book_id
+    FROM contributes_to c
+    WHERE c.author_id = (
+        SELECT author_id
+        FROM contributes_to
+        GROUP BY author_id
+        ORDER BY COUNT(*) DESC
+        FETCH FIRST 1 ROW ONLY
+    )
+    MINUS
+    SELECT br.book_id
+    FROM borrowing_record br
+    WHERE br.borrower_id = m.person_id
+);
 /*
 QUERY 7
 Find the Gold Member with the greatest number of guests.
 */
-
+SELECT person_id
+FROM (
+    SELECT m.person_id, COUNT(*) AS guest_count
+    FROM member m
+    JOIN guest g ON g.host_id = m.person_id
+    WHERE m.member_level = 'Gold'
+    GROUP BY m.person_id
+)
+WHERE guest_count = (
+    SELECT MAX(guest_count)
+    FROM (
+        SELECT COUNT(*) AS guest_count
+        FROM member m
+        JOIN guest g ON g.host_id = m.person_id
+        WHERE m.member_level = 'Gold'
+        GROUP BY m.person_id
+    )
+);
 /*
 QUERY 8
  Find the year with the maximum number of books borrowed.
 */
-
+SELECT EXTRACT(YEAR FROM issue_date) AS borrow_year
+FROM borrowing_record
+GROUP BY EXTRACT(YEAR FROM issue_date)
+HAVING COUNT(*) = (
+    SELECT MAX(cnt)
+    FROM (
+        SELECT COUNT(*) cnt
+        FROM borrowing_record
+        GROUP BY EXTRACT(YEAR FROM issue_date)
+    )
+);
 /*
 QUERY 9
 Find the names of members who borrowed the most popular books. 
 */
-
+SELECT DISTINCT p.fname, p.lname
+FROM person p
+JOIN borrowing_record br ON p.person_id = br.borrower_id
+WHERE br.book_id IN (
+    SELECT book_id
+    FROM borrowing_record
+    GROUP BY book_id
+    HAVING COUNT(*) = (
+        SELECT MAX(cnt)
+        FROM (
+            SELECT COUNT(*) cnt
+            FROM borrowing_record
+            GROUP BY book_id
+        )
+    )
+);
 /*
 QUERY 10
 List all the employees that have enrolled into gold membership within a month 
 of being employed. 
 */
-
+SELECT p.fname, p.lname
+FROM person p
+JOIN member m ON p.person_id = m.person_id
+WHERE m.member_level = 'Gold'
+AND EXISTS (
+    SELECT 1
+    FROM (
+        SELECT person_id, start_date FROM receptionist
+        UNION
+        SELECT person_id, start_date FROM library_supervisor
+        UNION
+        SELECT person_id, start_date FROM cataloging_manager
+    ) e
+    WHERE e.person_id = p.person_id
+      AND m.enrollment_date BETWEEN e.start_date AND e.start_date + 30
+);
 /*
 QUERY 11
 Find the names of receptionists with an average rating of 4.0 from the inquiries 
 they resolved. 
 */
-
+SELECT p.fname, p.lname
+FROM person p
+JOIN receptionist r ON p.person_id = r.person_id
+JOIN inquiry i ON r.person_id = i.receptionist_id
+GROUP BY p.fname, p.lname
+HAVING AVG(i.rating) >= 4.0;
 /*
 QUERY 12
 Find the names of receptionists and their trainers who resolve at least 2 
 inquiries every month in the past 3 months. 
 */
-
+SELECT r.person_id AS receptionist_id, t.trainer_id
+FROM training tr
+JOIN trainer t ON tr.trainer_id = t.trainer_id
+JOIN receptionist r ON tr.trainee_id = r.trainee_id
+JOIN inquiry i ON r.person_id = i.receptionist_id
+WHERE i.inquiry_time >= ADD_MONTHS(SYSDATE, -3)
+GROUP BY r.person_id, t.trainer_id,
+         TRUNC(i.inquiry_time, 'MM')
+HAVING COUNT(*) >= 2;
 /*
 QUERY 13
 List the employee who trained the greatest number of receptionists.
 */
-
+SELECT t.trainer_id
+FROM training t
+GROUP BY t.trainer_id
+HAVING COUNT(*) = (
+    SELECT MAX(cnt)
+    FROM (
+        SELECT COUNT(*) cnt
+        FROM training
+        GROUP BY trainer_id
+    )
+);
 /*
 QUERY 14
 List the Cataloging Managers who cataloged all categories every week in the 
 past 4 weeks. 
 */
+SELECT c.c_manager
+FROM catalogs c
+WHERE c.cataloging_date >= SYSDATE - 28
+GROUP BY c.c_manager, TRUNC(c.cataloging_date, 'IW')
+HAVING COUNT(DISTINCT c.category_number) = (
+    SELECT COUNT(*)
+    FROM book_category
+);
