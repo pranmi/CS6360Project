@@ -67,14 +67,16 @@ create table library_supervisor(
 create table receptionist(
     person_id int primary key,
     start_date date not null,
-    trainee_id int not null,
+    trainee_id int unique not null,
     foreign key (person_id) references person(person_id)
 );
 
 create table training(
-    trainer_id int references trainer(trainer_id),
-    trainee_id int references receptionist(trainee_id),
-    primary key(trainer_id, trainee_id)
+    trainer_id int,
+    trainee_id int,
+    primary key(trainer_id, trainee_id),
+    foreign key(trainer_id) references trainer(trainer_id),
+    FOREIGN KEY (trainee_id) references Receptionist(trainee_id)
 );
 
 create table inquiry(
@@ -156,7 +158,6 @@ create table borrowing_record(
     payment_id int references payment(payment_id) not null,
     primary key (borrower_id, issue_date, book_id, receptionist_id)
 );
-
 /*
 TopGoldMember - This view returns the First Name, Last Name and Date of 
 membership enrollment of those members who have borrowed more than 5 
@@ -242,3 +243,105 @@ where R.Person_ID IN(
     group by Receptionist_ID
     HAVING count(*) >= 5
 );
+
+/*
+QUERY 1
+List the details of all the supervisors of the library hired in the past two months. 
+*/
+Select *
+from LIBRARY_SUPERVISOR LS JOIN Person P on LS.Person_ID = P.PERSON_ID
+WHERE LS.Start_Date >= (SYSDATE - 60);
+
+/*
+QUERY 2
+Find the names of employees who are also members and the books they have 
+borrowed in the past month. 
+*/
+Select p.Fname, p.Lname, b.title
+FROM Person p
+join BORROWING_RECORD br on p.person_id = br.borrower_ID
+join BOOK b on br.book_ID = b.BOOK_ID
+WHERE p.Person_ID in(
+    (Select Person_ID From Receptionist)
+    UNION
+    (Select Person_ID FROM LIBRARY_SUPERVISOR)
+    UNION
+    (SELECT PERSON_ID FROM CATALOGING_MANAGER)
+)
+and br.ISSUE_DATE >= (SYSDATE - 30);
+
+/*
+QUERY 3
+Find the average number of books borrowed by the top five gold members in the 
+library. 
+*/
+Select AVG(top_five_counts) as top_five_gold_average
+from (
+    Select Count(*) as top_five_counts
+    From BORROWING_RECORD br join MEMBER m on br.borrower_id = m.person_id
+    where m.member_level = 'Gold'
+    group by br.borrower_id
+    order by top_five_counts DESC
+    Fetch First 5 ROWS ONLY
+);
+
+/*
+QUERY 4
+Find the name of the publishers and the title of the most popular book for each 
+publisher. 
+*/
+
+/*
+QUERY 5
+Find names of books that were not borrowed in the last 5 months. 
+*/
+
+/*
+QUERY 6
+Find the members who have borrowed all the books wrote by the most popular 
+author. 
+*/
+
+/*
+QUERY 7
+Find the Gold Member with the greatest number of guests.
+*/
+
+/*
+QUERY 8
+ Find the year with the maximum number of books borrowed.
+*/
+
+/*
+QUERY 9
+Find the names of members who borrowed the most popular books. 
+*/
+
+/*
+QUERY 10
+List all the employees that have enrolled into gold membership within a month 
+of being employed. 
+*/
+
+/*
+QUERY 11
+Find the names of receptionists with an average rating of 4.0 from the inquiries 
+they resolved. 
+*/
+
+/*
+QUERY 12
+Find the names of receptionists and their trainers who resolve at least 2 
+inquiries every month in the past 3 months. 
+*/
+
+/*
+QUERY 13
+List the employee who trained the greatest number of receptionists.
+*/
+
+/*
+QUERY 14
+List the Cataloging Managers who cataloged all categories every week in the 
+past 4 weeks. 
+*/
