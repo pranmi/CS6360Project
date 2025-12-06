@@ -9,9 +9,11 @@ Create table person(
     Primary Key(person_ID)
 );
 
+
 Create table member(
     person_ID int,
     member_level varchar(10),
+    enrollment_date date not null,
     Primary Key(person_ID),
     Foreign Key(person_ID) references person (person_ID)
 );
@@ -95,8 +97,9 @@ create table guest(
     primary key(guest_id, host_card_id, host_id)
 );
 
+
 create table publisher(
-    publihser_id int primary key,
+    publisher_id int primary key,
     publisher_name varchar(25) not null
 );
 
@@ -152,4 +155,90 @@ create table borrowing_record(
     receptionist_id int references person(person_id),
     payment_id int references payment(payment_id) not null,
     primary key (borrower_id, issue_date, book_id, receptionist_id)
+);
+
+/*
+TopGoldMember - This view returns the First Name, Last Name and Date of 
+membership enrollment of those members who have borrowed more than 5 
+books in the past month. 
+*/
+create view TopGoldMember as
+    Select Fname, Lname, enrollment_date
+    from member join person on member.person_id = person.person_id
+    where member.PERSON_ID in(
+        select BORROWER_ID
+        from BORROWING_RECORD
+        where issue_date >= SYSDATE - 30 and member.member_level = 'Gold'
+        group by borrower_id
+        having (count(book_id) >= 5)
+);
+
+/*
+PopularBooks - This view returns the details of the most borrowed books over 
+the past year. 
+*/
+create view popularbooks AS
+select * from book
+where book_id in(
+    select book_id
+    from (
+        select book_id, count(*) as borrow_count
+        from BORROWING_RECORD
+        where issue_date >= (sysdate - 365)
+        group by book_id
+        order by borrow_count DESC
+        fetch first 10 rows only
+    )
+);
+
+/*
+BestRatingPublisher – This view returns the names of publishers whose books 
+all have at least a 4.0 average rating score.
+*/
+CREATE VIEW BestRatingPublishers AS
+SELECT p.publisher_name
+FROM publisher p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM book b
+    JOIN (
+        SELECT book_id, AVG(rating_score) AS avg_rating
+        FROM book_comment
+        GROUP BY book_id
+    ) r ON b.book_id = r.book_id
+    WHERE b.publisher_id = p.publisher_id
+      AND r.avg_rating < 4.0
+);
+
+/*
+PotentialGoldMember - This view returns the name, phone number and ID of the 
+silver members who borrowed books every month in the past year.
+*/
+--the issue with this query is that there will be multiple entries for members with different
+--phone numbers
+create view PotentialGoldMember AS
+Select P.Person_ID, p.FNAME, p.Lname, N.P_NUMBER
+From Person p JOIN PHONE_NUMBERS n on P.Person_ID = N.PERSON_ID
+where P.Person_ID IN(
+    SELECT M.Person_ID
+    FROM BORROWING_RECORD B join MEMBER M on B.BORROWER_ID = M.Person_ID
+    where M.member_level = 'Silver' 
+    and B.issue_date >= TRUNC(ADD_MONTHS(SYSDATE, -12), 'MM')
+    group by M.PERSON_ID
+    having count(distinct TRUNC(B.Issue_date, 'MM')) = 12
+);
+
+/*
+ActiveReceptionist - This view returns the names of receptionists who resolved 
+more than 5 inquiries from members in the past month. 
+*/
+create view ActiveReceptionist AS
+SELECT P.Person_ID, P.Fname, P.Lname
+from Person P JOIN Receptionist R on P.Person_ID = R.Person_ID
+where R.Person_ID IN(
+    Select I.Receptionist_ID
+    From Inquiry I
+    WHERE I.INQUIRY_Time >= (SYSDATE - 30)
+    group by Receptionist_ID
+    HAVING count(*) >= 5
 );
