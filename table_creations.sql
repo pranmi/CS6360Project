@@ -172,7 +172,8 @@ create table borrowing_record( //checked by pranith to match sheets constraints
     return_date date,
     receptionist_id int references person(person_id),
     payment_id int references payment(payment_id) not null,
-    primary key (borrower_id, issue_date, book_id, receptionist_id)
+    primary key (borrower_id, issue_date, book_id, receptionist_id),
+    CONSTRAINT valid_return_date CHECK(return_date > issue_date)
 );
 /*
 TopGoldMember - This view returns the First Name, Last Name and Date of 
