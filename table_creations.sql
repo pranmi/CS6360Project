@@ -175,6 +175,23 @@ create table borrowing_record( //checked by pranith to match sheets constraints
     primary key (borrower_id, issue_date, book_id, receptionist_id),
     CONSTRAINT valid_return_date CHECK(return_date > issue_date)
 );
+
+CREATE OR REPLACE TRIGGER guest_valid_host
+BEFORE INSERT OR UPDATE ON guest
+FOR EACH ROW
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM member m
+        WHERE m.person_id = :NEW.host_id
+          AND m.member_level = 'Gold'
+    ) THEN
+        RAISE_APPLICATION_ERROR(
+            -20001,
+            'Host must be a Gold level member'
+        );
+    END IF;
+END;
 /*
 TopGoldMember - This view returns the First Name, Last Name and Date of 
 membership enrollment of those members who have borrowed more than 5 
