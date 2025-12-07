@@ -192,6 +192,76 @@ BEGIN
         );
     END IF;
 END;
+
+CREATE TRIGGER check_adult_superviser
+BEFORE INSERT OR UPDATE ON library_supervisor
+FOR EACH ROW
+DECLARE
+    v_dob DATE;
+    v_age NUMBER;
+BEGIN
+    SELECT dob
+    INTO v_dob
+    FROM person
+    WHERE person_id = :NEW.person_id;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Person does not exist');
+    v_age := FLOOR(MONTHS_BETWEEN(SYSDATE, v_dob) / 12);
+    IF v_age < 18 THEN
+        RAISE_APPLICATION_ERROR(
+            -20002,
+            'Supervisor must be at least 18 years old'
+        );
+    END IF;
+END;
+/
+CREATE TRIGGER check_adult_manager
+BEFORE INSERT OR UPDATE ON cataloging_manager
+FOR EACH ROW
+DECLARE
+    v_dob DATE;
+    v_age NUMBER;
+BEGIN
+    SELECT dob
+    INTO v_dob
+    FROM person
+    WHERE person_id = :NEW.person_id;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Person does not exist');
+    v_age := FLOOR(MONTHS_BETWEEN(SYSDATE, v_dob) / 12);
+    IF v_age < 18 THEN
+        RAISE_APPLICATION_ERROR(
+            -20003,
+            'Manager must be at least 18 years old'
+        );
+    END IF;
+END;
+/
+CREATE TRIGGER check_adult_receptionist
+BEFORE INSERT OR UPDATE ON receptionist
+FOR EACH ROW
+DECLARE
+    v_dob DATE;
+    v_age NUMBER;
+BEGIN
+    SELECT dob
+    INTO v_dob
+    FROM person
+    WHERE person_id = :NEW.person_id;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Person does not exist');
+    v_age := FLOOR(MONTHS_BETWEEN(SYSDATE, v_dob) / 12);
+    IF v_age < 18 THEN
+        RAISE_APPLICATION_ERROR(
+            -20004,
+            'Receptionist must be at least 18 years old'
+        );
+    END IF;
+END;
+/
 /*
 TopGoldMember - This view returns the First Name, Last Name and Date of 
 membership enrollment of those members who have borrowed more than 5 
