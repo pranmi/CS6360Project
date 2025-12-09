@@ -559,16 +559,7 @@ FROM person p
 JOIN borrowing_record br ON p.person_id = br.borrower_id
 WHERE br.book_id IN (
     SELECT book_id
-    FROM borrowing_record
-    GROUP BY book_id
-    HAVING COUNT(*) = (
-        SELECT MAX(cnt)
-        FROM (
-            SELECT COUNT(*) cnt
-            FROM borrowing_record
-            GROUP BY book_id
-        )
-    )
+    FROM popularbooks
 );
 /*
 QUERY 10
@@ -607,16 +598,23 @@ QUERY 12
 Find the names of receptionists and their trainers who resolve at least 2 
 inquiries every month in the past 3 months. 
 */
-SELECT r.person_id AS receptionist_id, t.trainer_id
-FROM training tr
-JOIN trainer t ON tr.trainer_id = t.trainer_id
-JOIN receptionist r ON tr.trainee_id = r.trainee_id
-JOIN inquiry i ON r.person_id = i.receptionist_id
-WHERE i.inquiry_time >= ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -3)
-GROUP BY r.person_id, t.trainer_id
-HAVING COUNT(*) >= 6
-   AND COUNT(DISTINCT TRUNC(i.inquiry_time, 'MM')) = 3;
-
+SELECT receptionist_id, trainer_id
+FROM (
+    SELECT r.person_id AS receptionist_id, 
+           t.trainer_id,
+           TRUNC(i.inquiry_time, 'MM') AS inquiry_month,
+           COUNT(*) AS inquiries_per_month
+    FROM training tr
+    JOIN trainer t ON tr.trainer_id = t.trainer_id
+    JOIN receptionist r ON tr.trainee_id = r.trainee_id
+    JOIN inquiry i ON r.person_id = i.receptionist_id
+    WHERE i.inquiry_time >= ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -3)
+      AND i.inquiry_time < TRUNC(SYSDATE, 'MM')
+    GROUP BY r.person_id, t.trainer_id, TRUNC(i.inquiry_time, 'MM')
+)
+GROUP BY receptionist_id, trainer_id
+HAVING COUNT(inquiry_month) = 3
+   AND MIN(inquiries_per_month) >= 2;
 /*
 QUERY 13
 List the employee who trained the greatest number of receptionists.
@@ -650,3 +648,4 @@ FROM (
 )
 GROUP BY c_manager
 HAVING COUNT(*) = 4;
+
