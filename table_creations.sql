@@ -262,6 +262,74 @@ EXCEPTION
     END IF;
 END;
 /
+
+CREATE OR REPLACE TRIGGER catalog_manager_trainID_check
+BEFORE INSERT OR UPDATE OF trainer_id ON cataloging_manager
+FOR EACH ROW
+DECLARE
+    v_cnt NUMBER;
+BEGIN
+    -- Allow NULL trainer_id
+    IF :NEW.trainer_id IS NULL THEN
+        RETURN;
+    END IF;
+
+    -- Check uniqueness across library_supervisor
+    SELECT COUNT(*)
+    INTO v_cnt
+    FROM library_supervisor
+    WHERE trainer_id = :NEW.trainer_id;
+
+    IF v_cnt > 0 THEN
+        RAISE_APPLICATION_ERROR(
+            -20010,
+            'Trainer ID already assigned to a library supervisor'
+        );
+    END IF;
+
+    -- Insert trainer if not already present
+    MERGE INTO trainer t
+    USING (SELECT :NEW.trainer_id AS trainer_id FROM dual) src
+    ON (t.trainer_id = src.trainer_id)
+    WHEN NOT MATCHED THEN
+        INSERT (trainer_id) VALUES (src.trainer_id);
+END;
+/
+
+CREATE OR REPLACE TRIGGER library_supervisor_trainID_check
+BEFORE INSERT OR UPDATE OF trainer_id ON library_supervisor
+FOR EACH ROW
+DECLARE
+    v_cnt NUMBER;
+BEGIN
+    -- Allow NULL trainer_id
+    IF :NEW.trainer_id IS NULL THEN
+        RETURN;
+    END IF;
+
+    -- Check uniqueness across cataloging_manager
+    SELECT COUNT(*)
+    INTO v_cnt
+    FROM cataloging_manager
+    WHERE trainer_id = :NEW.trainer_id;
+
+    IF v_cnt > 0 THEN
+        RAISE_APPLICATION_ERROR(
+            -20011,
+            'Trainer ID already assigned to a cataloging manager'
+        );
+    END IF;
+
+    -- Insert trainer if not already present
+    MERGE INTO trainer t
+    USING (SELECT :NEW.trainer_id AS trainer_id FROM dual) src
+    ON (t.trainer_id = src.trainer_id)
+    WHEN NOT MATCHED THEN
+        INSERT (trainer_id) VALUES (src.trainer_id);
+END;
+/
+
+
 /*
 TopGoldMember - This view returns the First Name, Last Name and Date of 
 membership enrollment of those members who have borrowed more than 5 
