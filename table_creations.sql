@@ -25,7 +25,7 @@ Create table person( //checked by pranith to match sheets constraints
 Create table member( //checked by pranith to match sheets constraints
     person_ID p_code,
     member_level mem_lvl,
-    /*enrollment_date date not null, (member doesn't have enrollment date)*/
+    enrollment_date date not null,
     Primary Key(person_ID),
     Foreign Key(person_ID) references person(person_ID)
 );
@@ -302,12 +302,9 @@ FOR EACH ROW
 DECLARE
     v_cnt NUMBER;
 BEGIN
-    -- Allow NULL trainer_id
     IF :NEW.trainer_id IS NULL THEN
         RETURN;
     END IF;
-
-    -- Check uniqueness across cataloging_manager
     SELECT COUNT(*)
     INTO v_cnt
     FROM cataloging_manager
@@ -319,8 +316,6 @@ BEGIN
             'Trainer ID already assigned to a cataloging manager'
         );
     END IF;
-
-    -- Insert trainer if not already present
     MERGE INTO trainer t
     USING (SELECT :NEW.trainer_id AS trainer_id FROM dual) src
     ON (t.trainer_id = src.trainer_id)
@@ -336,14 +331,16 @@ membership enrollment of those members who have borrowed more than 5
 books in the past month. 
 */
 create view TopGoldMember as
-    Select Fname, Lname, enrollment_date
-    from member join person on member.person_id = person.person_id
-    where member.PERSON_ID in(
-        select BORROWER_ID
-        from BORROWING_RECORD
-        where issue_date >= SYSDATE - 30 and member.member_level = 'Gold'
-        group by borrower_id
-        having (count(book_id) >= 5)
+    SELECT p.Fname, p.Lname, m.enrollment_date
+    FROM member m
+    JOIN person p ON m.person_id = p.person_id
+    WHERE m.member_level = 'Gold'
+    AND m.person_id IN (
+        SELECT br.borrower_id
+        FROM borrowing_record br
+        WHERE br.issue_date >= SYSDATE - 30
+        GROUP BY br.borrower_id
+        HAVING COUNT(br.book_id) > 5
 );
 
 /*
@@ -413,7 +410,7 @@ where R.Person_ID IN(
     From Inquiry I
     WHERE I.INQUIRY_Time >= (SYSDATE - 30)
     group by Receptionist_ID
-    HAVING count(*) >= 5
+    HAVING count(*) > 5
 );
 
 /*
@@ -465,19 +462,23 @@ publisher.
 SELECT p.publisher_name, b.title
 FROM publisher p
 JOIN book b ON p.publisher_id = b.publisher_id
-JOIN (
+WHERE b.book_id IN (
     SELECT br.book_id
     FROM borrowing_record br
+    JOIN book b2 ON br.book_id = b2.book_id
+    WHERE b2.publisher_id = p.publisher_id
     GROUP BY br.book_id
     HAVING COUNT(*) = (
         SELECT MAX(cnt)
         FROM (
             SELECT COUNT(*) cnt
-            FROM borrowing_record
-            GROUP BY book_id
+            FROM borrowing_record br2
+            JOIN book b3 ON br2.book_id = b3.book_id
+            WHERE b3.publisher_id = p.publisher_id
+            GROUP BY br2.book_id
         )
     )
-) pop ON b.book_id = pop.book_id;
+);
 /*
 QUERY 5
 Find names of books that were not borrowed in the last 5 months. 
@@ -611,10 +612,11 @@ FROM training tr
 JOIN trainer t ON tr.trainer_id = t.trainer_id
 JOIN receptionist r ON tr.trainee_id = r.trainee_id
 JOIN inquiry i ON r.person_id = i.receptionist_id
-WHERE i.inquiry_time >= ADD_MONTHS(SYSDATE, -3)
-GROUP BY r.person_id, t.trainer_id,
-         TRUNC(i.inquiry_time, 'MM')
-HAVING COUNT(*) >= 2;
+WHERE i.inquiry_time >= ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -3)
+GROUP BY r.person_id, t.trainer_id
+HAVING COUNT(*) >= 6
+   AND COUNT(DISTINCT TRUNC(i.inquiry_time, 'MM')) = 3;
+
 /*
 QUERY 13
 List the employee who trained the greatest number of receptionists.
@@ -635,11 +637,16 @@ QUERY 14
 List the Cataloging Managers who cataloged all categories every week in the 
 past 4 weeks. 
 */
-SELECT c.c_manager
-FROM catalogs c
-WHERE c.cataloging_date >= SYSDATE - 28
-GROUP BY c.c_manager, TRUNC(c.cataloging_date, 'IW')
-HAVING COUNT(DISTINCT c.category_number) = (
-    SELECT COUNT(*)
-    FROM book_category
-);
+SELECT c_manager
+FROM (
+    SELECT c.c_manager,
+           TRUNC(c.cataloging_date, 'IW') AS week_start
+    FROM catalogs c
+    WHERE c.cataloging_date >= SYSDATE - 28
+    GROUP BY c.c_manager, TRUNC(c.cataloging_date, 'IW')
+    HAVING COUNT(DISTINCT c.category_number) = (
+        SELECT COUNT(*) FROM book_category
+    )
+)
+GROUP BY c_manager
+HAVING COUNT(*) = 4;
