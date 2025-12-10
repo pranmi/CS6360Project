@@ -627,7 +627,7 @@ VALUES ('P027', '469-555-2701');
 
 -- Member P001 (John Smith) makes inquiries
 INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
-VALUES (7001, 5, '2024-11-15 09:30:00', 'P021', 'P001');
+VALUES (7001, 5, TIMESTAMP '2024-11-15 09:30:00', 'P021', 'P001');
 
 INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
 VALUES (7002, 4, TIMESTAMP '2024-12-01 14:20:00', 'P022', 'P001');
@@ -783,7 +783,7 @@ INSERT INTO publisher (publisher_id, publisher_name)
 VALUES (9002, 'HarperCollins');
 
 INSERT INTO publisher (publisher_id, publisher_name)
-VALUES (9003, 'Simon & Schuster');
+VALUES (9003, 'Simon Schuster');
 
 INSERT INTO publisher (publisher_id, publisher_name)
 VALUES (9004, 'Macmillan Publishers');
@@ -828,10 +828,10 @@ INSERT INTO publisher (publisher_id, publisher_name)
 VALUES (9017, 'Houghton Mifflin');
 
 INSERT INTO publisher (publisher_id, publisher_name)
-VALUES (9018, 'Little Brown & Company');
+VALUES (9018, 'Little Brown  Company');
 
 INSERT INTO publisher (publisher_id, publisher_name)
-VALUES (9019, 'Faber & Faber');
+VALUES (9019, 'Faber  Faber');
 
 INSERT INTO publisher (publisher_id, publisher_name)
 VALUES (9020, 'Grove Press');
@@ -1434,13 +1434,22 @@ VALUES (12030, TIMESTAMP '2025-04-15 12:00:00', 67.75, 'Cash');
 
 -- Member P001 (John Smith) borrows books
 INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
-VALUES ('P001', DATE '2025-01-05', 11001, DATE '2025-01-19', 'P021', 12001);
+VALUES ('P001', DATE '2025-12-05', 11001, DATE '2026-01-10', 'P021', 12001);
 
 INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
-VALUES ('P001', DATE '2025-02-08', 11007, DATE '2025-02-22', 'P022', 12011);
+VALUES ('P001', DATE '2025-12-08', 11007, DATE '2026-01-08', 'P022', 12011);
 
 INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
-VALUES ('P001', DATE '2025-03-12', 11010, DATE '2025-03-26', 'P023', 12020);
+VALUES ('P001', DATE '2025-12-12', 11013, DATE '2026-01-12', 'P023', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-12-12', 11012, DATE '2026-01-12', 'P023', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-12-12', 11011, DATE '2026-01-12', 'P023', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-12-05', 11014, DATE '2026-01-12', 'P023', 12020);
 
 -- Member P002 (Sarah Johnson) borrows books
 INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
@@ -1541,3 +1550,1269 @@ VALUES ('P021',  DATE'2025-04-15', 11006, DATE '2025-04-29', 'P022', 12030);
 -- Member P023 (Nicole Wright - Receptionist, helped by another receptionist)
 INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
 VALUES ('P023',  DATE'2025-02-08', 11017,  DATE'2025-02-22', 'P024', 12011);
+
+-- Additional borrowing records for GOLD members to have 6+ books borrowed in last 30 days
+-- Assuming current date is around December 10, 2025, so last 30 days = after November 10, 2025
+
+-- Member P001 (John Smith - GOLD) - adding more recent borrowing records
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-11-15', 11004, DATE '2025-11-29', 'P021', 12001);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-11-18', 11008, DATE '2025-12-02', 'P022', 12002);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001',DATE  '2025-11-22', 11015, DATE '2025-12-06', 'P023', 12003);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-11-25', 11020, DATE '2025-12-09', 'P024', 12004);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-11-28', 11026, DATE '2025-12-12', 'P025', 12005);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P001', DATE '2025-12-02', 11029, DATE '2025-12-16', 'P026', 12006);
+
+-- Member P005 (David Davis - GOLD) - adding more recent borrowing records
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-11-12', 11003, DATE '2025-11-26', 'P027', 12007);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-11-16', 11006, DATE '2025-11-30', 'P021', 12008);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-11-20', 11009, DATE '2025-12-04', 'P022', 12009);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-11-24', 11012, DATE '2025-12-08', 'P023', 12010);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-11-28', 11018, DATE '2025-12-12', 'P024', 12011);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-12-01', 11027, DATE '2025-12-15', 'P025', 12012);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P005', DATE '2025-12-05', 11030, DATE '2025-12-19', 'P026', 12013);
+
+-- Member P009 (Christopher Wilson - GOLD) - adding more recent borrowing records
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', DATE '2025-11-14', 11002, DATE '2025-11-28', 'P027', 12014);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', DATE '2025-11-17', 11005, DATE '2025-12-01', 'P021', 12015);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', DATE '2025-11-21', 11011, DATE '2025-12-05', 'P022', 12016);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', '2025-11-26', 11016, DATE '2025-12-10', 'P023', 12017);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', '2025-11-30', 11024, DATE '2025-12-14', 'P024', 12018);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P009', '2025-12-04', 11028, DATE '2025-12-18', 'P025', 12019);
+
+-- Member P014 (James Anderson - GOLD, Cataloging Manager) - adding more recent borrowing records
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014', DATE '2025-11-13', 11007, DATE '2025-11-27', 'P026', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014', DATE '2025-11-19', 11013, DATE '2025-12-03', 'P027', 12021);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014', DATE '2025-11-23', 11017, DATE '2025-12-07', 'P021', 12022);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014',DATE  '2025-11-27', 11019,DATE  '2025-12-11', 'P022', 12023);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014', DATE  '2025-12-01', 11021,DATE   '2025-12-15', 'P023', 12024);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P014', DATE  '2025-12-06', 11025,DATE   '2025-12-20', 'P024', 12025);
+
+-- Member P026 (Brian Scott - GOLD, Receptionist) - adding more recent borrowing records
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026', DATE  '2025-11-11', 11001, DATE  '2025-11-25', 'P021', 12026);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026', DATE  '2025-11-15', 11010, DATE  '2025-11-29', 'P022', 12027);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026', DATE  '2025-11-20', 11014,DATE  '2025-12-04', 'P023', 12028);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026',DATE   '2025-11-24', 11022,DATE   '2025-12-08', 'P024', 12029);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026', DATE  '2025-11-29', 11023, DATE  '2025-12-13', 'P025', 12030);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P026', DATE  '2025-12-03', 11004, DATE  '2025-12-17', 'P027', 12001);
+
+-- Additional borrowing records for SILVER members to have borrowed in all 12 of the last months
+-- Assuming current date is around December 10, 2025
+-- Need borrowing records from December 2024 through November 2025 (12 months)
+
+-- Member P002 (Sarah Johnson - SILVER) - one book each month for 12 months
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2024-12-05', 11001, DATE '2024-12-19', 'P021', 12001);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-01-10', 11003, DATE '2025-01-24', 'P022', 12002);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-02-08', 11005, DATE '2025-02-22', 'P023', 12003);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-03-12', 11007, DATE '2025-03-26', 'P024', 12004);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-04-15', 11009, DATE '2025-04-29', 'P025', 12005);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-05-18', 11011, DATE '2025-06-01', 'P026', 12006);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-06-22', 11014, DATE '2025-07-06', 'P027', 12007);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-07-25', 11017, DATE '2025-08-08', 'P021', 12008);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-08-28', 11019, DATE '2025-09-11', 'P022', 12009);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-09-30', 11021, DATE '2025-10-14', 'P023', 12010);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-10-05', 11023, DATE '2025-10-19', 'P024', 12011);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P002', DATE '2025-11-08', 11025, DATE '2025-11-22', 'P025', 12012);
+
+-- Member P006 (Jennifer Martinez - SILVER) - one book each month for 12 months
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2024-12-08', 11002, DATE '2024-12-22', 'P026', 12013);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-01-12', 11004, DATE '2025-01-26', 'P027', 12014);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-02-15', 11006, DATE '2025-03-01', 'P021', 12015);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-03-18', 11008, DATE '2025-04-01', 'P022', 12016);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-04-20', 11010, DATE '2025-05-04', 'P023', 12017);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-05-23', 11012, DATE '2025-06-06', 'P024', 12018);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-06-26', 11015, DATE '2025-07-10', 'P025', 12019);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-07-29', 11018, DATE '2025-08-12', 'P026', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-08-31', 11020, DATE '2025-09-14', 'P027', 12021);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-09-03', 11022, DATE '2025-09-17', 'P021', 12022);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-10-08', 11024, DATE '2025-10-22', 'P022', 12023);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P006', DATE '2025-11-11', 11026, DATE '2025-11-25', 'P023', 12024);
+
+-- Member P010 (Jessica Anderson - SILVER) - one book each month for 12 months
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2024-12-10', 11013, DATE '2024-12-24', 'P024', 12025);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-01-14', 11016, DATE '2025-01-28', 'P025', 12026);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-02-17', 11027, DATE '2025-03-03', 'P026', 12027);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-03-20', 11028, DATE '2025-04-03', 'P027', 12028);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-04-22', 11029, DATE '2025-05-06', 'P021', 12029);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-05-25', 11030, DATE '2025-06-08', 'P022', 12030);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-06-28', 11001, DATE '2025-07-12', 'P023', 12001);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-07-31', 11003, DATE '2025-08-14', 'P024', 12002);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-08-04', 11006, DATE '2025-08-18', 'P025', 12003);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-09-07', 11009, DATE '2025-09-21', 'P026', 12004);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-10-10', 11012, DATE '2025-10-24', 'P027', 12005);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P010', DATE '2025-11-13', 11015, DATE '2025-11-27', 'P021', 12006);
+
+-- Member P017 (Thomas Clark - SILVER, Library Supervisor) - one book each month for 12 months
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2024-12-12', 11002, DATE '2024-12-26', 'P022', 12007);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-01-16', 11005, DATE '2025-01-30', 'P023', 12008);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-02-19', 11008, DATE '2025-03-05', 'P024', 12009);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-03-22', 11011, DATE '2025-04-05', 'P025', 12010);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-04-25', 11013, DATE '2025-05-09', 'P026', 12011);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-05-28', 11016, DATE '2025-06-11', 'P027', 12012);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-06-30', 11019, DATE '2025-07-14', 'P021', 12013);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-07-03', 11021, DATE '2025-07-17', 'P022', 12014);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-08-06', 11023, DATE '2025-08-20', 'P023', 12015);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-09-09', 11025, DATE '2025-09-23', 'P024', 12016);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-10-12', 11027, DATE '2025-10-26', 'P025', 12017);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P017', DATE '2025-11-15', 11030, DATE '2025-11-29', 'P026', 12018);
+
+-- Member P023 (Nicole Wright - SILVER, Receptionist) - one book each month for 12 months
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2024-12-14', 11007, DATE '2024-12-28', 'P021', 12019);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-01-18', 11010, DATE '2025-02-01', 'P022', 12020);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-02-21', 11014, DATE '2025-03-07', 'P025', 12021);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-03-24', 11018, DATE '2025-04-07', 'P026', 12022);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-04-27', 11020, DATE '2025-05-11', 'P027', 12023);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-05-30', 11022, DATE '2025-06-13', 'P021', 12024);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-06-02', 11024, DATE '2025-06-16', 'P022', 12025);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-07-05', 11026, DATE '2025-07-19', 'P025', 12026);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-08-08', 11028, DATE '2025-08-22', 'P026', 12027);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-09-11', 11004, DATE '2025-09-25', 'P027', 12028);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-10-14', 11007, DATE '2025-10-28', 'P021', 12029);
+
+INSERT INTO borrowing_record (borrower_id, issue_date, book_id, return_date, receptionist_id, payment_id)
+VALUES ('P023', DATE '2025-11-17', 11011, DATE '2025-12-01', 'P022', 12030);
+
+-- Additional inquiry records for receptionists to have 5+ inquiries in last 30 days
+-- Assuming current date is around December 10, 2025, so last 30 days = after November 10, 2025
+
+-- Receptionist P021 (Michelle Young) - adding more recent inquiries (need 6+ total)
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7021, 5, TIMESTAMP '2025-11-12 10:30:00', 'P021', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7022, 4, TIMESTAMP '2025-11-15 14:20:00', 'P021', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7023, 5, TIMESTAMP '2025-11-18 09:45:00', 'P021', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7024, 4, TIMESTAMP '2025-11-22 16:10:00', 'P021', 'P007');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7025, 5, TIMESTAMP '2025-11-26 11:30:00', 'P021', 'P009');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7026, 4, TIMESTAMP '2025-11-29 13:15:00', 'P021', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7027, 5, TIMESTAMP '2025-12-03 10:00:00', 'P021', 'P002');
+
+-- Receptionist P022 (Daniel King) - adding more recent inquiries (need 6+ total)
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7028, 4, TIMESTAMP '2025-11-13 09:20:00', 'P022', 'P004');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7029, 5, TIMESTAMP '2025-11-16 15:30:00', 'P022', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7030, 3, TIMESTAMP '2025-11-20 11:45:00', 'P022', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7031, 4, TIMESTAMP '2025-11-24 14:00:00', 'P022', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7032, 5, TIMESTAMP '2025-11-28 10:30:00', 'P022', 'P014');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7033, 4, TIMESTAMP '2025-12-01 16:20:00', 'P022', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7034, 5, TIMESTAMP '2025-12-05 12:10:00', 'P022', 'P020');
+
+-- Receptionist P023 (Nicole Wright) - adding more recent inquiries (need 6+ total)
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7035, 5, TIMESTAMP '2025-11-14 10:15:00', 'P023', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7036, 4, TIMESTAMP '2025-11-17 13:40:00', 'P023', 'P002');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7037, 5, TIMESTAMP '2025-11-21 09:50:00', 'P023', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7038, 3, TIMESTAMP '2025-11-25 15:25:00', 'P023', 'P004');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7039, 4, TIMESTAMP '2025-11-30 11:00:00', 'P023', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7040, 5, TIMESTAMP '2025-12-04 14:30:00', 'P023', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7041, 4, TIMESTAMP '2025-12-07 10:45:00', 'P023', 'P007');
+
+-- Receptionist P024 (Kevin Lopez) - adding more recent inquiries (need 6+ total)
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7042, 5, TIMESTAMP '2025-11-11 09:30:00', 'P024', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7043, 4, TIMESTAMP '2025-11-14 13:20:00', 'P024', 'P009');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7044, 5, TIMESTAMP '2025-11-19 10:40:00', 'P024', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7045, 4, TIMESTAMP '2025-11-23 15:15:00', 'P024', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7046, 5, TIMESTAMP '2025-11-27 11:50:00', 'P024', 'P014');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7047, 4, TIMESTAMP '2025-12-02 14:05:00', 'P024', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7048, 5, TIMESTAMP '2025-12-06 10:20:00', 'P024', 'P020');
+
+-- Receptionist P025 (Angela Hill) - adding more recent inquiries (need 6+ total)
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7049, 4, TIMESTAMP '2025-11-15 09:00:00', 'P025', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7050, 5, TIMESTAMP '2025-11-18 14:45:00', 'P025', 'P002');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7051, 3, TIMESTAMP '2025-11-22 10:30:00', 'P025', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7052, 4, TIMESTAMP '2025-11-26 16:00:00', 'P025', 'P004');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7053, 5, TIMESTAMP '2025-11-29 12:15:00', 'P025', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7054, 4, TIMESTAMP '2025-12-03 15:30:00', 'P025', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7055, 5, TIMESTAMP '2025-12-08 11:10:00', 'P025', 'P007');
+
+-- First, add new person entries for recently hired library supervisors
+INSERT INTO person (person_ID, Fname, Mname, Lname, Address, Gender, DOB)
+VALUES ('P031', 'Elizabeth', 'Anne', 'Morgan', '842 Leadership Ave, Downtown', 'F', DATE '1986-04-22');
+
+INSERT INTO person (person_ID, Fname, Mname, Lname, Address, Gender, DOB)
+VALUES ('P032', 'Michael', 'Patrick', 'Chen', '567 Management St, Eastside', 'M', DATE '1989-08-15');
+
+INSERT INTO person (person_ID, Fname, Mname, Lname, Address, Gender, DOB)
+VALUES ('P033', 'Rachel', 'Nicole', 'Foster', '923 Director Blvd, Northend', 'F', DATE '1983-11-30');
+
+INSERT INTO person (person_ID, Fname, Mname, Lname, Address, Gender, DOB)
+VALUES ('P034', 'David', 'Alexander', 'Rivera', '458 Admin Way, Westside', 'M', DATE '1991-02-18');
+
+-- Now insert library supervisors with recent start dates (last 60 days)
+INSERT INTO library_supervisor (person_id, start_date, trainer_id)
+VALUES ('P031', DATE '2025-10-15', 5007);
+
+INSERT INTO library_supervisor (person_id, start_date, trainer_id)
+VALUES ('P032', DATE '2025-10-28', 5008);
+
+INSERT INTO library_supervisor (person_id, start_date, trainer_id)
+VALUES ('P033', DATE '2025-11-05', NULL);
+
+INSERT INTO library_supervisor (person_id, start_date, trainer_id)
+VALUES ('P034', DATE '2025-11-18', 5009);
+
+-- Add phone numbers for the new supervisors
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P031', '214-555-3101');
+
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P031', '972-555-3102');
+
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P032', '469-555-3201');
+
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P033', '817-555-3301');
+
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P033', '214-555-3302');
+
+INSERT INTO phone_numbers (person_id, p_number)
+VALUES ('P034', '972-555-3401');
+
+-- Additional inquiry records for receptionists to have 2+ inquiries per month for 3 consecutive months
+-- Last 3 complete months: September, October, November 2025
+
+-- Receptionist P021 (trainee_id 6001) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7056, 5, TIMESTAMP '2025-09-05 10:30:00', 'P021', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7057, 4, TIMESTAMP '2025-09-18 14:20:00', 'P021', 'P002');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7058, 5, TIMESTAMP '2025-10-08 09:45:00', 'P021', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7059, 4, TIMESTAMP '2025-10-22 16:10:00', 'P021', 'P004');
+
+-- November 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7060, 5, TIMESTAMP '2025-11-06 11:30:00', 'P021', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7061, 4, TIMESTAMP '2025-11-15 13:15:00', 'P021', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7062, 5, TIMESTAMP '2025-11-25 10:00:00', 'P021', 'P007');
+
+-- Receptionist P021 (trainee_id 6001) also trained by trainer 5005
+-- September 2025 - 2 inquiries (same receptionist can be counted with different trainer)
+-- These are the same inquiries as above, just showing the relationship with another trainer
+
+-- Receptionist P022 (trainee_id 6002) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7063, 4, TIMESTAMP '2025-09-08 09:20:00', 'P022', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7064, 5, TIMESTAMP '2025-09-20 15:30:00', 'P022', 'P009');
+
+-- October 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7065, 3, TIMESTAMP '2025-10-10 11:45:00', 'P022', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7066, 4, TIMESTAMP '2025-10-18 14:00:00', 'P022', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7067, 5, TIMESTAMP '2025-10-28 10:30:00', 'P022', 'P014');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7068, 4, TIMESTAMP '2025-11-10 16:20:00', 'P022', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7069, 5, TIMESTAMP '2025-11-22 12:10:00', 'P022', 'P020');
+
+-- Receptionist P022 (trainee_id 6002) also trained by trainer 5006
+-- Using same inquiries as above for the relationship with another trainer
+
+-- Receptionist P024 (trainee_id 6004) trained by trainer 5003
+-- September 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7070, 5, TIMESTAMP '2025-09-12 10:15:00', 'P024', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7071, 4, TIMESTAMP '2025-09-19 13:40:00', 'P024', 'P002');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7072, 5, TIMESTAMP '2025-09-26 09:50:00', 'P024', 'P003');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7073, 3, TIMESTAMP '2025-10-14 15:25:00', 'P024', 'P004');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7074, 4, TIMESTAMP '2025-10-25 11:00:00', 'P024', 'P005');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7075, 5, TIMESTAMP '2025-11-08 14:30:00', 'P024', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7076, 4, TIMESTAMP '2025-11-20 10:45:00', 'P024', 'P007');
+
+-- Receptionist P024 (trainee_id 6004) also trained by trainer 5005
+-- Using same inquiries for the relationship with another trainer
+
+-- Receptionist P025 (trainee_id 6005) trained by trainer 5004
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7077, 5, TIMESTAMP '2025-09-15 09:30:00', 'P025', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7078, 4, TIMESTAMP '2025-09-28 13:20:00', 'P025', 'P009');
+
+-- October 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7079, 5, TIMESTAMP '2025-10-12 10:40:00', 'P025', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7080, 4, TIMESTAMP '2025-10-20 15:15:00', 'P025', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7081, 5, TIMESTAMP '2025-10-30 11:50:00', 'P025', 'P014');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7082, 4, TIMESTAMP '2025-11-12 14:05:00', 'P025', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7083, 5, TIMESTAMP '2025-11-24 10:20:00', 'P025', 'P020');
+
+-- Receptionist P025 (trainee_id 6005) also trained by trainer 5006
+-- Using same inquiries for the relationship with another trainer
+
+-- Receptionist P026 (trainee_id 6006) trained by trainer 5004
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7084, 4, TIMESTAMP '2025-09-10 09:00:00', 'P026', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7085, 5, TIMESTAMP '2025-09-22 14:45:00', 'P026', 'P002');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7086, 3, TIMESTAMP '2025-10-15 10:30:00', 'P026', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7087, 4, TIMESTAMP '2025-10-26 16:00:00', 'P026', 'P004');
+
+-- November 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7088, 5, TIMESTAMP '2025-11-14 12:15:00', 'P026', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7089, 4, TIMESTAMP '2025-11-21 15:30:00', 'P026', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7090, 5, TIMESTAMP '2025-11-28 11:10:00', 'P026', 'P007');
+
+
+-- Additional cataloging records for managers to catalog all 3 categories each week for 4 weeks
+-- Assuming current date is December 10, 2025
+-- Past 4 weeks: Week of Nov 11-17, Nov 18-24, Nov 25-Dec 1, Dec 2-8
+
+-- Cataloging Manager P011 (Patricia Thompson)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-11');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-13');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-18');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-20');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-25');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-27');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-12-02');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-12-04');
+
+-- Cataloging Manager P012 (Richard Miller)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-14');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-21');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-28');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-12-05');
+
+-- Cataloging Manager P014 (James Anderson)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-14');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-15');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-21');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-22');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-28');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-29');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-12-05');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-12-06');
+
+-- Cataloging Manager P013 (Linda Taylor) - only 3 weeks (won't appear in results)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-14');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-15');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-11-16');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-21');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-22');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-11-23');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-29');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-30');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-12-01');
+
+-- Week 4 (Dec 2-8) - only 2 categories (incomplete - won't qualify)
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-12-05');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-12-06');
+
+-- Cataloging Manager P015 (Barbara White) - all 4 weeks but missing category 3 in week 2
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 1, DATE '2025-11-15');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 2, DATE '2025-11-16');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 3, DATE '2025-11-17');
+
+-- Week 2 (Nov 18-24) - only 2 categories (incomplete)
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 1, DATE '2025-11-22');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 2, DATE '2025-11-23');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 1, DATE '2025-11-30');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 2, DATE '2025-12-01');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 3, DATE '2025-11-01');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 1, DATE '2025-12-06');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 2, DATE '2025-12-07');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P015', 3, DATE '2025-12-08');
+
+
+-- Add more training relationships to make trainer 5001 the clear leader
+
+-- Trainer 5001 trains additional receptionists (currently has 2, let's add 3 more)
+INSERT INTO training (trainer_id, trainee_id)
+VALUES (5001, 6003);
+
+INSERT INTO training (trainer_id, trainee_id)
+VALUES (5001, 6005);
+
+INSERT INTO training (trainer_id, trainee_id)
+VALUES (5001, 6006);
+
+-- Now trainer 5001 has trained 5 receptionists total:
+-- 6001, 6002, 6003, 6005, 6006
+
+-- Let's also add one more to trainer 5002 to make them second place
+INSERT INTO training (trainer_id, trainee_id)
+VALUES (5002, 6005);
+
+-- Now trainer 5002 has trained 3 receptionists: 6003, 6007, 6005
+
+-- And one more to trainer 5004 to diversify
+INSERT INTO training (trainer_id, trainee_id)
+VALUES (5004, 6003);
+
+-- Now trainer 5004 has trained 3 receptionists: 6005, 6006, 6003
+
+-- Additional inquiry records for receptionists to have 2+ inquiries per month for 3 consecutive months
+-- Last 3 complete months: September, October, November 2025
+-- Current training relationships after cleanup:
+-- Trainer 5001: trains 6001 (P021), 6002 (P022), 6003 (P023), 6005 (P025), 6006 (P026)
+-- Trainer 5002: trains 6007 (P027)
+-- Trainer 5003: trains 6004 (P024)
+
+-- Receptionist P021 (trainee_id 6001) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7091, 5, TIMESTAMP '2025-09-05 10:30:00', 'P021', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7092, 4, TIMESTAMP '2025-09-18 14:20:00', 'P021', 'P002');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7093, 5, TIMESTAMP '2025-10-08 09:45:00', 'P021', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7094, 4, TIMESTAMP '2025-10-22 16:10:00', 'P021', 'P004');
+
+-- November 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7095, 5, TIMESTAMP '2025-11-06 11:30:00', 'P021', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7096, 4, TIMESTAMP '2025-11-15 13:15:00', 'P021', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7097, 5, TIMESTAMP '2025-11-25 10:00:00', 'P021', 'P007');
+
+-- Receptionist P022 (trainee_id 6002) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7098, 4, TIMESTAMP '2025-09-08 09:20:00', 'P022', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7099, 5, TIMESTAMP '2025-09-20 15:30:00', 'P022', 'P009');
+
+-- October 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7100, 3, TIMESTAMP '2025-10-10 11:45:00', 'P022', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7101, 4, TIMESTAMP '2025-10-18 14:00:00', 'P022', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7102, 5, TIMESTAMP '2025-10-28 10:30:00', 'P022', 'P014');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7103, 4, TIMESTAMP '2025-11-10 16:20:00', 'P022', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7104, 5, TIMESTAMP '2025-11-22 12:10:00', 'P022', 'P020');
+
+-- Receptionist P024 (trainee_id 6004) trained by trainer 5003
+-- September 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7105, 5, TIMESTAMP '2025-09-12 10:15:00', 'P024', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7106, 4, TIMESTAMP '2025-09-19 13:40:00', 'P024', 'P002');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7107, 5, TIMESTAMP '2025-09-26 09:50:00', 'P024', 'P003');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7108, 3, TIMESTAMP '2025-10-14 15:25:00', 'P024', 'P004');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7109, 4, TIMESTAMP '2025-10-25 11:00:00', 'P024', 'P005');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7110, 5, TIMESTAMP '2025-11-08 14:30:00', 'P024', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7111, 4, TIMESTAMP '2025-11-20 10:45:00', 'P024', 'P007');
+
+-- Receptionist P025 (trainee_id 6005) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7112, 5, TIMESTAMP '2025-09-15 09:30:00', 'P025', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7113, 4, TIMESTAMP '2025-09-28 13:20:00', 'P025', 'P009');
+
+-- October 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7114, 5, TIMESTAMP '2025-10-12 10:40:00', 'P025', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7115, 4, TIMESTAMP '2025-10-20 15:15:00', 'P025', 'P011');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7116, 5, TIMESTAMP '2025-10-30 11:50:00', 'P025', 'P014');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7117, 4, TIMESTAMP '2025-11-12 14:05:00', 'P025', 'P017');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7118, 5, TIMESTAMP '2025-11-24 10:20:00', 'P025', 'P020');
+
+-- Receptionist P026 (trainee_id 6006) trained by trainer 5001
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7119, 4, TIMESTAMP '2025-09-10 09:00:00', 'P026', 'P001');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7120, 5, TIMESTAMP '2025-09-22 14:45:00', 'P026', 'P002');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7121, 3, TIMESTAMP '2025-10-15 10:30:00', 'P026', 'P003');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7122, 4, TIMESTAMP '2025-10-26 16:00:00', 'P026', 'P004');
+
+-- November 2025 - 3 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7123, 5, TIMESTAMP '2025-11-14 12:15:00', 'P026', 'P005');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7124, 4, TIMESTAMP '2025-11-21 15:30:00', 'P026', 'P006');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7125, 5, TIMESTAMP '2025-11-28 11:10:00', 'P026', 'P007');
+
+-- Receptionist P027 (trainee_id 6007) trained by trainer 5002
+-- September 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7126, 4, TIMESTAMP '2025-09-11 10:00:00', 'P027', 'P008');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7127, 5, TIMESTAMP '2025-09-24 14:30:00', 'P027', 'P009');
+
+-- October 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7128, 4, TIMESTAMP '2025-10-13 11:20:00', 'P027', 'P010');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7129, 5, TIMESTAMP '2025-10-27 15:45:00', 'P027', 'P011');
+
+-- November 2025 - 2 inquiries
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7130, 3, TIMESTAMP '2025-11-16 13:00:00', 'P027', 'P014');
+
+INSERT INTO inquiry (inquiry_id, rating, inquiry_time, receptionist_id, member_id)
+VALUES (7131, 4, TIMESTAMP '2025-11-26 10:30:00', 'P027', 'P017');
+
+-- Additional cataloging records for managers to catalog all 3 categories each week for 4 weeks
+-- Assuming current date is December 10, 2025
+-- Past 4 weeks based on ISO week (IW): approximately Nov 11-17, Nov 18-24, Nov 25-Dec 1, Dec 2-8
+
+-- Cataloging Manager P011 (Patricia Thompson)
+-- Week 1 (around Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-11');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-13');
+
+-- Week 2 (around Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-18');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-20');
+
+-- Week 3 (around Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-25');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-27');
+
+-- Week 4 (around Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-12-02');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-12-04');
+
+-- Cataloging Manager P012 (Richard Miller)
+-- Week 1 (around Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-14');
+
+-- Week 2 (around Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-21');
+
+-- Week 3 (around Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-28');
+
+-- Week 4 (around Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-12-05');
+
+-- Cataloging Manager P014 (James Anderson)
+-- Week 1 (around Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-14');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-15');
+
+-- Week 2 (around Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-21');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-22');
+
+-- Week 3 (around Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-28');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-29');
+
+-- Week 4 (around Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-12-05');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-12-06');
+
+-- Cataloging Manager P013 (Linda Taylor) - only 3 weeks complete (won't appear in results)
+-- Week 1 (around Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-14');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-15');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-11-16');
+
+-- Week 2 (around Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-21');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-22');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-11-23');
+
+-- Week 3 (around Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-11-29');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-11-30');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 3, DATE '2025-12-01');
+
+-- Week 4 (around Dec 2-8) - only 2 categories (incomplete - won't qualify)
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 1, DATE '2025-12-05');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P013', 2, DATE '2025-12-06');
+
+-- Delete any existing recent cataloging records to start fresh
+DELETE FROM catalogs WHERE cataloging_date >= DATE '2025-11-11';
+
+-- Cataloging Manager P011 (Patricia Thompson)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-11');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-13');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-18');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-20');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-11-25');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-11-27');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 1, DATE '2025-12-02');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 2, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P011', 3, DATE '2025-12-04');
+
+-- Cataloging Manager P012 (Richard Miller)
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-12');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-14');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-19');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-21');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-11-26');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-11-28');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 1, DATE '2025-12-03');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 2, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P012', 3, DATE '2025-12-05');
+
+-- Cataloging Manager P014 (James Anderson) - using different dates to avoid conflicts
+-- Week 1 (Nov 11-17) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-13');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-14');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-15');
+
+-- Week 2 (Nov 18-24) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-20');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-21');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-22');
+
+-- Week 3 (Nov 25-Dec 1) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-11-27');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-11-28');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-11-29');
+
+-- Week 4 (Dec 2-8) - all 3 categories
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 1, DATE '2025-12-04');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 2, DATE '2025-12-05');
+
+INSERT INTO catalogs (c_manager, category_number, cataloging_date)
+VALUES ('P014', 3, DATE '2025-12-06');

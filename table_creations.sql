@@ -113,7 +113,7 @@ create table guest( --checked by pranith to match sheets constraints
     host_id references member(person_id),
     guest_name varchar(25) not null,
     address varchar(50),
-    contact_info char(12) CHECK (REGEXP_LIKE(P_NUMBER, '^[1-9]\d{2}-\d{3}-\d{4}$')) not null,
+    contact_info char(12) CHECK (REGEXP_LIKE(contact_info, '^[1-9]\d{2}-\d{3}-\d{4}$')) not null,
     primary key(guest_id, host_card_id, host_id)
 );
 
@@ -162,6 +162,7 @@ create table catalogs( --checked by pranith to match sheets constraints
     cataloging_date date,
     primary key(c_manager, category_number, cataloging_date)
 );
+
 
 create table payment( --checked by pranith to match sheets constraints
     payment_id int primary key,
@@ -350,6 +351,7 @@ TopGoldMember - This view returns the First Name, Last Name and Date of
 membership enrollment of those members who have borrowed more than 5 
 books in the past month. 
 */
+
 create view TopGoldMember as
     SELECT p.Fname, p.Lname, m.enrollment_date
     FROM member m
@@ -360,7 +362,7 @@ create view TopGoldMember as
         FROM borrowing_record br
         WHERE br.issue_date >= SYSDATE - 30
         GROUP BY br.borrower_id
-        HAVING COUNT(br.book_id) > 5
+        HAVING COUNT(br.book_id) >= 5
 );
 
 /*
@@ -430,7 +432,7 @@ where R.Person_ID IN(
     From Inquiry I
     WHERE I.INQUIRY_Time >= (SYSDATE - 30)
     group by Receptionist_ID
-    HAVING count(*) > 5
+    HAVING count(*) >= 5
 );
 
 /*
