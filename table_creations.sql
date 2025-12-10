@@ -1,56 +1,59 @@
+/*
 CREATE DOMAIN p_code AS CHAR(4)
 CHECK (VALUE = '^P[0-9]{3}$');
 
 CREATE DOMAIN mem_lvl AS CHAR(5)
 CHECK(VALUE = 'Silver' OR 'Gold');
+CHECK (mem_lvl IN ('Silver', 'Gold'))
 
 CREATE DOMAIN gen AS CHAR(1)
 CHECK(VALUE = 'M' OR 'F');
 
 CREATE DOMAIN p# AS CHAR(12)
-CHECK(VALUE = '^[1-9]\d{2}-\d{3}-\d{4}') //pretty sure this is the right regex for a phone number
+CHECK(VALUE = '^[1-9]\d{2}-\d{3}-\d{4}') --pretty sure this is the right regex for a phone number
+*/
 
-Create table person( //checked by pranith to match sheets constraints
-    person_ID p_code,
+Create table person( --checked by pranith to match sheets constraints
+    person_ID CHAR(4) CHECK (REGEXP_LIKE(person_ID, '^P[0-9]{3}$')),
     Fname varchar(20) not null,
     Mname varchar(20),
     Lname varchar(20) not null,
     Address varchar(50),
-    Gender gen,
+    Gender char(1) CHECK (Gender in ('M', 'F')),
     DOB date,
     Primary Key(person_ID)
 );
 
 
-Create table member( //checked by pranith to match sheets constraints
-    person_ID p_code,
-    member_level mem_lvl,
+Create table member( --checked by pranith to match sheets constraints
+    person_ID CHAR(4),
+    member_level CHAR(6) check (member_level in ('Silver', 'Gold')),
     enrollment_date date not null,
     Primary Key(person_ID),
     Foreign Key(person_ID) references person(person_ID)
 );
 
-create table library_card( //checked by pranith to match sheets constraints
+create table library_card( --checked by pranith to match sheets constraints
     card_ID int unique,
-    owner_id p_code,
+    owner_id CHAR(4),
     primary key(card_ID, owner_ID),
     foreign key(owner_id) references member(person_ID)
 );
 
-create table phone_numbers( //checked by pranith to match sheets constraints
-    person_id p_code,
-    p_number p#,
+create table phone_numbers( --checked by pranith to match sheets constraints
+    person_id CHAR(4),
+    p_number char(12) CHECK (REGEXP_LIKE(P_NUMBER, '^[1-9]\d{2}-\d{3}-\d{4}$')),
     primary key(person_id, p_number),
     foreign key(person_id) references person(person_id)
 );
 
-create table promotion( //checked by pranith to match sheets constraints
+create table promotion( --checked by pranith to match sheets constraints
     promocode int,
     description varchar(100),
     primary key(promocode)
 );
 
-create table Associates( //checked by pranith to match sheets constraints
+create table Associates( --checked by pranith to match sheets constraints
     promocode int,
     card_id int,
     primary key(promocode, card_id),
@@ -63,21 +66,23 @@ create table trainer(
 );
 
 create table cataloging_manager(
-    person_id p_code primary key,
+    person_id CHAR(4) primary key,
     start_date date not null,
     trainer_id int references trainer(trainer_id),
     foreign key (person_id) references person(person_id)
 );
 
+
 create table library_supervisor(
-    person_id p_code,
+    person_id CHAR(4),
     start_date date not null,
+    trainer_id int references trainer(trainer_id),
     primary key (person_id),
     foreign key (person_id) references person(person_Id)
 );
 
 create table receptionist(
-    person_id p_code primary key,
+    person_id char(4) primary key,
     start_date date not null,
     trainee_id int unique not null,
     foreign key (person_id) references person(person_id)
@@ -91,86 +96,86 @@ create table training(
     FOREIGN KEY (trainee_id) references Receptionist(trainee_id)
 );
 
-create table inquiry( //checked by pranith to match sheets constraints
+create table inquiry( --checked by pranith to match sheets constraints
     inquiry_id int primary key,
     rating int,
     CONSTRAINT chk_rating CHECK (rating BETWEEN 1 AND 5),
     inquiry_time timestamp not null,
-    receptionist_id int not null,
-    member_id int not null,
+    receptionist_id char(4) not null,
+    member_id char(4) not null,
     foreign key(receptionist_id) references receptionist(person_id),
     foreign key(member_id) references member(person_id)
 );
 
-create table guest( //checked by pranith to match sheets constraints
+create table guest( --checked by pranith to match sheets constraints
     guest_id int,
     host_card_id int references library_card(card_id),
     host_id references member(person_id),
     guest_name varchar(25) not null,
     address varchar(50),
-    contact_info int not null,
+    contact_info char(12) CHECK (REGEXP_LIKE(P_NUMBER, '^[1-9]\d{2}-\d{3}-\d{4}$')) not null,
     primary key(guest_id, host_card_id, host_id)
 );
 
 
-create table publisher( //checked by pranith to match sheets constraints
+create table publisher( --checked by pranith to match sheets constraints
     publisher_id int primary key,
     publisher_name varchar(25) not null
 );
 
-create table author( //checked by pranith to match sheets constraints
+create table author( --checked by pranith to match sheets constraints
     author_id int primary key,
     author_name varchar(50) not null
 );
 
-create table book_category( //checked by pranith to match sheets constraints
+create table book_category( --checked by pranith to match sheets constraints
     category_number int primary key
     CONSTRAINT valid_cat CHECK (category_number BETWEEN 1 AND 3)
 );
 
-create table book(  //checked by pranith to match sheets constraints
+create table book(  --checked by pranith to match sheets constraints
     book_id int primary key,
     title varchar(50) not null,
     publisher_id int references publisher(publisher_id) not null,
     category_number references book_category(category_number) not null
 );
 
-create table book_comment( //checked by pranith to match sheets constraints
-    person_id int references person(person_id),
+create table book_comment( --checked by pranith to match sheets constraints
+    person_id char(4) references person(person_id),
     book_id int references book(book_id),
     comment_time timestamp,
     rating_score int,
-    CONSTRAINT chk_rating CHECK (rating_score BETWEEN 1 AND 5),
-    PRIMARY KEY (person_id, book_id), //one comment per book by a person
+    CONSTRAINT check_rating CHECK (rating_score BETWEEN 1 AND 5),
+    PRIMARY KEY (person_id, book_id), --one comment per book by a person
     comment_content varchar(200)
 );
 
-create table contributes_to( //checked by pranith to match sheets constraints
+create table contributes_to( --checked by pranith to match sheets constraints
     book_id int references book(book_id),
     author_id int references author(author_id),
     primary key(book_id, author_id)
 );
 
-create table catalogs( //checked by pranith to match sheets constraints
-    c_manager int references cataloging_manager(person_id),
+create table catalogs( --checked by pranith to match sheets constraints
+    c_manager char(4) references cataloging_manager(person_id),
     category_number int references book_category(category_number),
     cataloging_date date,
     primary key(c_manager, category_number, cataloging_date)
 );
 
-create table payment( //checked by pranith to match sheets constraints
+create table payment( --checked by pranith to match sheets constraints
     payment_id int primary key,
     payment_time timestamp not null,
     amount_paid decimal(10,2) not null,
     payment_method varchar(10) not null
 );
 
-create table borrowing_record( //checked by pranith to match sheets constraints
-    borrower_id int references person(person_id),
+create table borrowing_record( --checked by pranith to match sheets constraints
+    borrower_id char(4) references person(person_id),
     issue_date date,
     book_id int references book(book_id),
     return_date date,
-    receptionist_id int references person(person_id),
+    receptionist_id char(4) references receptionist(person_id),
     payment_id int references payment(payment_id) not null,
     primary key (borrower_id, issue_date, book_id, receptionist_id),
     CONSTRAINT valid_return_date CHECK(return_date > issue_date)
@@ -179,19 +184,23 @@ create table borrowing_record( //checked by pranith to match sheets constraints
 CREATE OR REPLACE TRIGGER guest_valid_host
 BEFORE INSERT OR UPDATE ON guest
 FOR EACH ROW
+DECLARE
+    v_count NUMBER;
 BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM member m
-        WHERE m.person_id = :NEW.host_id
-          AND m.member_level = 'Gold'
-    ) THEN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM member m
+    WHERE m.person_id = :NEW.host_id
+      AND m.member_level = 'Gold';
+    
+    IF v_count = 0 THEN
         RAISE_APPLICATION_ERROR(
             -20001,
             'Host must be a Gold level member'
         );
     END IF;
 END;
+/
 
 CREATE TRIGGER check_adult_superviser
 BEFORE INSERT OR UPDATE ON library_supervisor
@@ -301,10 +310,13 @@ BEFORE INSERT OR UPDATE OF trainer_id ON library_supervisor
 FOR EACH ROW
 DECLARE
     v_cnt NUMBER;
+    v_trainer_exists NUMBER;
 BEGIN
     IF :NEW.trainer_id IS NULL THEN
         RETURN;
     END IF;
+    
+    -- Check if trainer_id is already assigned to a cataloging manager
     SELECT COUNT(*)
     INTO v_cnt
     FROM cataloging_manager
@@ -316,11 +328,19 @@ BEGIN
             'Trainer ID already assigned to a cataloging manager'
         );
     END IF;
-    MERGE INTO trainer t
-    USING (SELECT :NEW.trainer_id AS trainer_id FROM dual) src
-    ON (t.trainer_id = src.trainer_id)
-    WHEN NOT MATCHED THEN
-        INSERT (trainer_id) VALUES (src.trainer_id);
+    
+    -- Verify trainer exists
+    SELECT COUNT(*)
+    INTO v_trainer_exists
+    FROM trainer
+    WHERE trainer_id = :NEW.trainer_id;
+    
+    IF v_trainer_exists = 0 THEN
+        RAISE_APPLICATION_ERROR(
+            -20012,
+            'Trainer ID does not exist in trainer table'
+        );
+    END IF;
 END;
 /
 
